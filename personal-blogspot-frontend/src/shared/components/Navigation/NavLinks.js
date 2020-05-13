@@ -12,11 +12,14 @@ class NavLinks extends React.Component {
             </li>
            
             <li>
+                <NavLink to="/all-blogs">ALL BLOGS</NavLink>
+            </li> 
+            <li>
                 <NavLink to="/register">SIGN UP</NavLink>
             </li> 
 
             <li>
-                <NavLink to='/blogs'>MY BLOGS</NavLink>
+                <NavLink to='/my-blogs'>MY BLOGS</NavLink>
             </li>
             
            
