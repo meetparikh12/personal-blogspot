@@ -1,7 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    userInfo: null
+    userInfo: {
+        userId: false
+    }
 }
 const userReducer = (state=initialState,action) => {
     switch (action.type) {
@@ -9,7 +11,7 @@ const userReducer = (state=initialState,action) => {
             return {
                 ...state,
                 userInfo : {
-                    userId : '123'
+                    userId : action.payload
                 }
             }
     
