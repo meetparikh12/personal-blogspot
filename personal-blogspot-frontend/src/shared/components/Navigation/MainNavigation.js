@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
 import './MainNavigation.css';
 import MainHeader from './MainHeader';
 import NavLinks from './NavLinks';
@@ -31,7 +30,7 @@ const MainNavigation = (props)=> {
                     <span/>
                     <span/>
                 </button>
-                <h2 className="main-navigation__title"><Link to="/">PERSONAL<span> BLOGSPOT</span></Link></h2>
+                <h3 className="main-navigation__title">PERSONAL<span> BLOGSPOT</span></h3>
                 <nav className="main-navigation__header-nav">
                     <NavLinks />
                 </nav>

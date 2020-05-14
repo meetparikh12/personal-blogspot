@@ -1,4 +1,4 @@
-.blog-item {
+/* .blog-item {
     margin: 1rem 0;
 }
 
@@ -26,4 +26,9 @@
 .blog-item__info h3,
 .blog-item__info p {
     margin: 0 0 0.5rem 0;
+} */
+
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
 }
