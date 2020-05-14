@@ -13,7 +13,7 @@ export default class BlogItem extends Component {
                         <div className="card-body blog-item__info">
                             <h2 className="card-title"><b>{this.props.title}</b></h2>
                             <p className="card-text">{this.props.description}</p>
-                            <Link to={`/blog/${this.props.creator.id}`} className="btn btn-outline-danger">Read More</Link>
+                            <Link to={`/blog/${this.props.id}/${this.props.creator.id}`} className="btn btn-outline-danger">Read More</Link>
                         </div>
                     </div>
                 </div>

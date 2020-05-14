@@ -12,10 +12,10 @@ function App() {
       <MainNavigation/>
       <main>
         <Switch>
-        <Route exact path="/all-blogs" component={AllBlogs}></Route>
-        <Route exact path="/my-blogs" component={AuthorBlogs}></Route>
-        <Route exact path="/blog/new" component={AddBlog}></Route>
-        <Route exact path="/blog/:userId" component={SingleBlog}></Route>
+          <Route exact path="/all-blogs" component={AllBlogs}></Route>
+          <Route exact path="/blogs/:userId" component={AuthorBlogs}></Route>
+          <Route exact path="/blog/new" component={AddBlog}></Route>
+          <Route exact path="/blog/:blogId/:userId" component={SingleBlog}></Route>
         </Switch>
       </main>
     </Router>

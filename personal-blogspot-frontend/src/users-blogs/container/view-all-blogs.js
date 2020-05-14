@@ -23,6 +23,17 @@ const BLOGS = [
         description: 'Velit non veniam ex aliqua quis et dolor. Ea ipsum reprehenderit id est. Tempor officia eu cupidatat id cillum non elit est sunt nostrud Lorem dolor est do.',
         image: "https://i.pinimg.com/originals/67/5b/f3/675bf3201ed1b6c2c0276a1186ef5f63.jpg",
         date: new Date().toLocaleDateString('en-US')
+    }, 
+    {
+        id: 'b3',
+        creator: {
+            id: 'u3',
+            name: 'Meet Parikh'
+        },
+        title: 'Travel Blog',
+        description: 'Velit non veniam ex aliqua quis et dolor. Ea ipsum reprehenderit id est. Tempor officia eu cupidatat id cillum non elit est sunt nostrud Lorem dolor est do.',
+        image: "https://www.ithaka.travel/blog/wp-content/uploads/2017/10/Featured-Image-15-740x493.jpg",
+        date: new Date().toLocaleDateString('en-US')
     }
 ]
 export default function AllBlogs() {
