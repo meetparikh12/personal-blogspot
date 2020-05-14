@@ -4,6 +4,7 @@ import MainHeader from './MainHeader';
 import NavLinks from './NavLinks';
 import SideDrawer from './SideDrawer';
 import Backdrop from '../UIElements/Backdrop';
+import {Link} from 'react-router-dom';
 
 const MainNavigation = (props)=> {
 
@@ -30,7 +31,7 @@ const MainNavigation = (props)=> {
                     <span/>
                     <span/>
                 </button>
-                <h3 className="main-navigation__title" >PERSONAL<span> BLOGSPOT</span></h3>
+                <h3 className="main-navigation__title" ><Link to="/all-blogs" style={{color: "white", textDecoration: "none"}}>PERSONAL<span> BLOGSPOT</span></Link></h3>
                 <nav className="main-navigation__header-nav">
                     <NavLinks />
                 </nav>

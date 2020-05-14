@@ -16,27 +16,27 @@ class NavLinks extends React.Component {
         <ul className="nav-links">
     
             {userInfo.userId && <li>
-                <NavLink to="/all-blogs">ALL BLOGS</NavLink>
+                <NavLink to="/all-blogs" style={{textDecoration: "none"}}>ALL BLOGS</NavLink>
             </li>}
 
             {!userInfo.userId && <li>
-                <NavLink to="/" exact onClick={() => this.props.logoutUser(!userInfo.userId)}>LOGIN</NavLink>
+                <NavLink to="/" style={{textDecoration: "none"}} exact onClick={() => this.props.logoutUser(!userInfo.userId)}>LOGIN</NavLink>
             </li>}
            
             {!userInfo.userId && <li>
-                <NavLink to="/register">SIGN UP</NavLink>
+                <NavLink to="/register" style={{textDecoration: "none"}}>SIGN UP</NavLink>
             </li>}
 
             {userInfo.userId && <li>
-                <NavLink to={`/blogs/${userInfo.user}`}>MY BLOGS</NavLink>
+                <NavLink to={`/blogs/${userInfo.user}`} style={{textDecoration: "none"}}>MY BLOGS</NavLink>
             </li>}
             
             {userInfo.userId && <li>
-                 <NavLink to="/blog/new">NEW POST</NavLink>
+                 <NavLink to="/blog/new" style={{textDecoration: "none"}}>NEW POST</NavLink>
             </li>}            
            
             {userInfo.userId && <li>
-                <NavLink to="/" exact onClick={() => this.props.logoutUser(!userInfo.userId)}>LOGOUT</NavLink>
+                <NavLink to="/" style={{textDecoration: "none"}} exact onClick={() => this.props.logoutUser(!userInfo.userId)}>LOGOUT</NavLink>
             </li>}            
 
         </ul>
