@@ -38,36 +38,19 @@ const BLOGS = [{
 ]
 
 class SingleBlog extends React.Component {
+
+    deleteBlogHandler(){
+        if(window.confirm('Do you want to delete this blog? Please note that it cannot be undone.')) {
+            console.log('Your blog is deleted.')
+            this.props.history.push("/all-blogs");
+        }
+     
+    }
     render(){
         const {blogId} = this.props.match.params;
         const currentBlog = BLOGS.find((blog)=> blog.id === blogId);
         return (
             <div className="container blog-post">
-                {/* <div className="card">
-                    <div className="row ">
-                        <div className="col-md-4">
-                            <img src={currentBlog.image} className="w-100"/>
-                        </div>
-                        <div className="col-md-8 px-3">
-                            <h6 className="text-muted"><i>Posted by <b>{currentBlog.creator.name}</b> on {currentBlog.date}</i></h6>
-                            <hr/>
-                            <div className="card-block px-3">
-                            <h2 className="card-title"><b>{currentBlog.title}</b></h2>
-                            <p className="card-text text-justify">{currentBlog.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>      */}
-                {/* <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap"/>
-                    <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                    <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                </div> */}
                 <div className="card mb-5">
                     <div className="blog-post__image">
                         <img className="card-img-top" src={currentBlog.image} alt="Blog post"/>
@@ -76,7 +59,7 @@ class SingleBlog extends React.Component {
                         <h2 className="card-title"><b>{currentBlog.title}</b></h2>
                         <p className="card-text text-justify">{currentBlog.description}</p>
                         <Link to={`/blog/${this.props.match.params.blogId}`}><button className="btn btn-outline-info mr-3">EDIT BLOG</button></Link>
-                        <button className="btn btn-outline-danger">DELETE </button>
+                        <button className="btn btn-outline-danger" onClick={this.deleteBlogHandler.bind(this)}>DELETE </button>
                         <hr/>
                         <p className="card-text"><small className="text-muted text-left"><i>Posted by <b>{currentBlog.creator.name}</b> on {currentBlog.date}</i></small></p>
                     </div>
