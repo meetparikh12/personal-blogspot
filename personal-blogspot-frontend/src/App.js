@@ -6,12 +6,16 @@ import AllBlogs from './users-blogs/container/view-all-blogs';
 import AuthorBlogs from './blogs/container/author-blogs';
 import AddBlog from './blogs/container/add-blog';
 import SingleBlog from './blogs/container/single-blog';
+import Register from './user-management/container/register';
+import login from './user-management/container/login';
 function App() {
   return (
     <Router>
       <MainNavigation/>
       <main>
         <Switch>
+          <Route exact path="/" component={login}></Route>
+          <Route exact path="/register" component={Register}></Route>
           <Route exact path="/all-blogs" component={AllBlogs}></Route>
           <Route exact path="/blogs/:userId" component={AuthorBlogs}></Route>
           <Route exact path="/blog/new" component={AddBlog}></Route>

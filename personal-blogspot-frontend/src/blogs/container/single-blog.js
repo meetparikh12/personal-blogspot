@@ -68,7 +68,7 @@ class SingleBlog extends React.Component {
                 </div> */}
                 <div className="card mb-5">
                     <div className="blog-post__image">
-                        <img className="card-img-top" src={currentBlog.image} alt="Card image cap"/>
+                        <img className="card-img-top" src={currentBlog.image} alt="Blog post"/>
                     </div>
                     <div className="card-body blog-post__info">
                         <h2 className="card-title"><b>{currentBlog.title}</b></h2>
