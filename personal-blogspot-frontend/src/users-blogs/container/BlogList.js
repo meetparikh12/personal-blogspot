@@ -21,7 +21,7 @@ export default function BlogList(props) {
                         description={blog.description}
                         image={blog.image}
                         creator={blog.creator}
-                        createdAt = {blog.date}        
+                        createdAt = {blog.date}
                     />
             )}
             </ul>
