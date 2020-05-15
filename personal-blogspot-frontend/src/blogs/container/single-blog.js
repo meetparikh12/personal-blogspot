@@ -1,4 +1,6 @@
 import React from 'react'
+import {Link} from 'react-router-dom';
+
 import './single-blog.css';
 const BLOGS = [{
         id: 'b1',
@@ -73,6 +75,8 @@ class SingleBlog extends React.Component {
                     <div className="card-body blog-post__info">
                         <h2 className="card-title"><b>{currentBlog.title}</b></h2>
                         <p className="card-text text-justify">{currentBlog.description}</p>
+                        <Link to={`/blog/${this.props.match.params.blogId}`}><button className="btn btn-outline-info mr-3">EDIT BLOG</button></Link>
+                        <button className="btn btn-outline-danger">DELETE </button>
                         <hr/>
                         <p className="card-text"><small className="text-muted text-left"><i>Posted by <b>{currentBlog.creator.name}</b> on {currentBlog.date}</i></small></p>
                     </div>
