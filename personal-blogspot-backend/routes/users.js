@@ -27,6 +27,7 @@ route.post('/register', async (req,res,next)=> {
 
     res.status(201).json({user});
 })
+
 route.post('/login', async (req,res,next)=> {
     const { email, password } = req.body;
     let user;

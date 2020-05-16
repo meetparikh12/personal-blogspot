@@ -3,6 +3,8 @@ const Post = require('../models/post');
 const ErrorHandling = require('../models/error-handling');
 const { v4: uuidv4 } = require('uuid');
 const route = express.Router();
+const mongoose = require('mongoose');
+const User = require('../models/user');
 
 route.get('/', async (req, res, next) => {
     let posts; 
@@ -50,14 +52,28 @@ route.get('/user/:userId', async (req,res,next)=> {
 
 route.post('/', async (req,res,next)=> {
 
-    const { title, description } = req.body;
+    const { title, description, creator } = req.body;
+    let user;
+    try {
+        user = await User.findById(creator);
+    } catch(err) {
+        return next(new ErrorHandling('User not fetched', 500))
+    } 
+    if(!user) {
+        return next(new ErrorHandling('User not found', 404))
+    }
     const post = new Post({
         title,
         description,
-        creator: uuidv4()
+        creator
     })
     try {
-        await post.save();
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        await post.save({session});
+        await user.posts.unshift(post);
+        await user.save({session});
+        await session.commitTransaction();
     } catch(err) {
         console.log(err);
         return next(new ErrorHandling('Post not created', 500))
@@ -95,15 +111,23 @@ route.delete('/:postId', async (req,res,next)=> {
     const postId = req.params.postId;
     let post;
     try {
-        post = await Post.findById(postId);
+        post = await Post.findById(postId).populate('creator');
     } catch(err){
         return next(new ErrorHandling('Post not fetched', 500));
     } 
     if(!post) {
         return next(new ErrorHandling('Post not found', 404));
     } 
+
     try {
-        await Post.deleteOne({_id: postId});
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        await post.creator.posts.pull(post);
+        await post.creator.save({session});
+//      await Post.deleteOne({_id: postId});
+        await post.remove({session});
+        await session.commitTransaction();
+
     } catch(err) {
         return next(new ErrorHandling('Post not deleted', 500))
     } 
