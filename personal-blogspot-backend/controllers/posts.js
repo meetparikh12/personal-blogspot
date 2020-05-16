@@ -1,3 +1,9 @@
+const Post = require('../models/post');
+const ErrorHandling = require('../models/error-handling');
+const mongoose = require('mongoose');
+const User = require('../models/user');
+const {validationResult}= require('express-validator');
+
 exports.GET_ALL_POSTS = async (req, res, next) => {
     let posts;
     try {
@@ -49,7 +55,12 @@ exports.GET_POSTS_BY_USERID = async (req, res, next) => {
 }
 
 exports.CREATE_NEW_POST = async (req, res, next) => {
-
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        error.statusCode = 422;
+        error.message = error.array()
+        return next(error);
+    }
     const {
         title,
         description,
@@ -91,6 +102,12 @@ exports.CREATE_NEW_POST = async (req, res, next) => {
 }
 
 exports.UPDATE_POST = async (req, res, next) => {
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        error.statusCode = 422;
+        error.message = error.array()
+        return next(error);
+    }
     let post;
     try {
         post = await Post.findById(req.params.postId);

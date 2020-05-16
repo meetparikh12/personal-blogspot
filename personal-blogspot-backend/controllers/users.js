@@ -1,4 +1,13 @@
+const ErrorHandling = require('../models/error-handling');
+const User = require('../models/user');
+const {validationResult}= require('express-validator');
 exports.SIGNUP_USER = async (req, res, next) => {
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        error.statusCode = 422;
+        error.message = error.array()
+        return next(error);
+    }
     const {
         name,
         email,
