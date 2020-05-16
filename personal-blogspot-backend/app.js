@@ -14,14 +14,6 @@ app.use(bodyParser.json());
 app.use('/api/posts', postsRoute);
 app.use('/api/users', usersRoute);
 
-app.use('/', (req,res,next)=> {
-    console.log("Through middleware!");
-    next();
-})
-app.get('/', (req,res,next)=> {
-    res.send("Hello");
-})
-
 app.use((req,res,next)=> {
     return next(new ErrorHandling('Specified route does not exist.', 404));
 })
@@ -30,8 +22,8 @@ app.use((error,req,res,next)=> {
     const message = error.message || 'Unknown error occured';
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({message})
-
 })
+
 mongoose.connect(config.get('mongoURI'), {
     useFindAndModify: false,
     useCreateIndex: true,
