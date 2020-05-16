@@ -27,5 +27,17 @@ route.post('/register', async (req,res,next)=> {
 
     res.status(201).json({user});
 })
-
+route.post('/login', async (req,res,next)=> {
+    const { email, password } = req.body;
+    let user;
+    try {
+        user = await User.findOne({email: email})
+    } catch(err) {
+        return next(new ErrorHandling('Invalid Credentials', 422))
+    }
+    if(!user || user.password !== password) {
+        return next(new ErrorHandling('Invalid Credentials', 422))
+    }
+    res.status(200).json({user})
+})
 module.exports = route;
