@@ -10,9 +10,10 @@ const postScehma = new mongoose.Schema({
         type: String,
         required: true
     },
-    // image: {
-    //     type: String
-    // }, 
+    image: {
+        type: String,
+        required: true
+    }, 
 
     creator: {
         type: mongoose.Schema.Types.ObjectId,

@@ -75,10 +75,13 @@ exports.CREATE_NEW_POST = async (req, res, next) => {
     if (!user) {
         return next(new ErrorHandling('User not found', 404))
     }
+    let imageUrl = req.file.path;
+    imageUrl = imageUrl.replace(/\\/g, "/");
     const post = new Post({
         title,
         description,
-        creator
+        creator,
+        image: imageUrl
     })
     try {
         const session = await mongoose.startSession();
