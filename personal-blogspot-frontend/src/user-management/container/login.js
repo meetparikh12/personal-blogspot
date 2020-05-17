@@ -38,7 +38,7 @@ class login extends Component {
             setJwtToken(token);
             const decode_token = jwt_decode(token);
             this.props.setUserInfo(decode_token, this.props.history);
-            toast.success("You're now logged in!", {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+            toast.success("Hi, Welcome Back!", {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
         })
         .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
     }

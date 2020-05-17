@@ -3,11 +3,16 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './NavLinks.css';
 import { setUserInfo } from '../../../actions/actions';
+import setJwtToken from '../../securityUtils/setJwtToken';
+import { toast } from 'react-toastify';
 
 class NavLinks extends React.Component {
 
     logoutUser(userId) {
-        this.props.logoutUser(!userId);
+        localStorage.removeItem('jwt-token');
+        setJwtToken(false);
+        this.props.logoutUser({});
+        toast.success("You're logged out!", {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 1000});
     }
 
     render(){
@@ -20,7 +25,7 @@ class NavLinks extends React.Component {
             </li>}
 
             {!userInfo.userId && <li>
-                <NavLink to="/" style={{textDecoration: "none"}} exact onClick={() => this.props.logoutUser(!userInfo.userId)}>LOGIN</NavLink>
+                <NavLink to="/" style={{textDecoration: "none"}} exact>LOGIN</NavLink>
             </li>}
            
             {!userInfo.userId && <li>
@@ -36,7 +41,7 @@ class NavLinks extends React.Component {
             </li>}            
            
             {userInfo.userId && <li>
-                <NavLink to="/" style={{textDecoration: "none"}} exact onClick={() => this.props.logoutUser(!userInfo.userId)}>LOGOUT</NavLink>
+                <NavLink to="/" style={{textDecoration: "none"}} exact onClick={this.logoutUser.bind(this)}>LOGOUT</NavLink>
             </li>}            
 
         </ul>
@@ -51,8 +56,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatchEvent => {
     return {
-        logoutUser : (userId) => {
-            dispatchEvent(setUserInfo(userId));
+        logoutUser : (userInfo) => {
+            dispatchEvent(setUserInfo(userInfo));
         }
     }
 }
