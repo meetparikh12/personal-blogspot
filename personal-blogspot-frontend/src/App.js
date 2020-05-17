@@ -48,7 +48,7 @@ function App() {
           <Route exact path="/blogs/:userId" component={AuthorBlogs}></Route>
           <Route exact path="/blog/new" component={AddBlog}></Route>
           <Route exact path="/blog/:blogId" component={UpdateBlog}></Route>
-          <Route exact path="/blog/:blogId/:userId" component={SingleBlog}></Route>
+          <Route exact path="/blog/user/:blogId" component={SingleBlog}></Route>
           <Redirect to="/"/>
         </Switch>
       </main>

@@ -17,7 +17,7 @@ export default class BlogItem extends Component {
                             <p className="card-text">{this.props.description.substring(0,MAX_LENGTH)+'[...]'}</p> :
                             <p className="card-text">{this.props.description}</p>                             
                             }
-                            <Link to={`/blog/${this.props.id}/${this.props.creator.id}`} className="btn btn-outline-danger">Read More</Link>
+                            <Link to={`/blog/user/${this.props.id}`} className="btn btn-outline-danger">Read More</Link>
                         </div>
                     </div>
                 </div>
