@@ -2,6 +2,8 @@ const ErrorHandling = require('../models/error-handling');
 const User = require('../models/user');
 const {validationResult}= require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 exports.SIGNUP_USER = async (req, res, next) => {
     const error = validationResult(req);
@@ -61,21 +63,32 @@ exports.LOGIN_USER = async (req, res, next) => {
             email: email
         })
     } catch (err) {
-        return next(new ErrorHandling('Invalid Credentials', 422))
+        return next(new ErrorHandling('Invalid Credentials', 403))
     }
     if (!user) {
-        return next(new ErrorHandling('Invalid Credentials', 422))
+        return next(new ErrorHandling('Invalid Credentials', 403))
     }
     let result;
     try {
          result = await bcrypt.compare(password, user.password)
     } catch(err) {
-        return next(new ErrorHandling('Password not compared', 422))   
+        return next(new ErrorHandling('Password not compared', 403))   
     }
     if(!result) {
-        return next(new ErrorHandling('Invalid Credentials', 422))
+        return next(new ErrorHandling('Invalid Credentials', 403))
     } 
+    let token;
+    try {
+        token = jwt.sign({
+            userId: user._id,
+            email: user.email
+        }, config.get('secretKey'), {
+            expiresIn: '1h'
+        });
+    } catch(err) {
+        return next(new ErrorHandling('Not authenticated', 401))
+    }
     res.status(200).json({
-        user
+        token
     })
 }
