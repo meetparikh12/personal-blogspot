@@ -10,7 +10,7 @@ export default class BlogItem extends Component {
             <li className="blog-item">
                 <div className="container">
                     <div className="card border-dark mb-5">
-                        <div className="card-header"><i>Posted by <b>{this.props.creator.name}</b> on {this.props.createdAt}</i></div>
+                        <div className="card-header"><i>Posted by <b>{this.props.creator}</b> on {this.props.date}</i></div>
                         <div className="card-body blog-item__info">
                             <h2 className="card-title"><b>{this.props.title}</b></h2>
                             {this.props.description.length> MAX_LENGTH ? 

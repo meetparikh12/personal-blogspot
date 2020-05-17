@@ -6,3 +6,10 @@ export const setUserInfo = userInfo => {
         payload: userInfo
     }
 }
+
+export const getAllPosts = posts => {
+    return {
+        type: actionTypes.GET_ALL_POSTS,
+        payload: posts
+    }
+}

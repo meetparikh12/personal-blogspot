@@ -15,13 +15,13 @@ export default function BlogList(props) {
         return (
             <ul className="blog-list">
                 {props.blogs.map((blog) => 
-                    <BlogItem key={blog.id}
-                        id={blog.id}
+                    <BlogItem key={blog._id}
+                        id={blog._id}
                         title={blog.title}
                         description={blog.description}
                         image={blog.image}
                         creator={blog.creator}
-                        createdAt = {blog.date}
+                        date = {(new Date(blog.createdAt).toDateString('en-US')).substr(4)}
                     />
             )}
             </ul>
