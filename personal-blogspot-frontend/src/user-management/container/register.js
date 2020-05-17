@@ -1,6 +1,12 @@
 import React from "react";
 import { Link} from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
+
 export default class Register extends React.Component {
     constructor(props) {
         super(props);
@@ -25,8 +31,13 @@ export default class Register extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
-
-        console.log(newUser);
+        axios.post('http://localhost:5000/api/users/register', newUser)
+        .then((res)=> {
+            toast.success(res.data.message, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 1000});
+            this.props.history.push('/');
+        })
+        .catch((err)=> toast.error(err.response.data.message[0].msg || err.response.data.message, 
+            {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
     }
     render() {
         return (
