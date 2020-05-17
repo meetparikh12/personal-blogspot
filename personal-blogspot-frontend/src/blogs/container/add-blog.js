@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 export default class AddBlog extends Component {
     constructor(props){
@@ -28,14 +30,20 @@ export default class AddBlog extends Component {
 
     formSubmitHandler(e){
         e.preventDefault();
-        const blogPost = {
-            title: this.state.title,
-            description: this.state.description,
-            image: this.state.image
-        }
+        const blogPost = new FormData();
+        blogPost.set('title', this.state.title);
+        blogPost.set('description', this.state.description);
+        blogPost.append('image', this.state.image);
 
-        console.log(blogPost);
-    }
+        axios.post('http://localhost:5000/api/posts', blogPost)
+        .then((res)=> {
+            toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+            this.props.history.push('/all-blogs');
+        })
+        .catch((err)=> toast.error(err.response.data.message[0].msg || err.response.data.message, 
+            {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
+    }    
+    
     render() {
         return (
             <div className="add-blog">
@@ -55,7 +63,7 @@ export default class AddBlog extends Component {
                                 </div>
                                 <h6>Upload Photo:</h6>
                                 <div className="form-group">
-                                    <input type="file" accept='.jpg,.png,.jpeg' placeholder = "Upload Photos" onChange={this.fileChangeHandler} className="form-control form-control-lg" name="image" />
+                                    <input type="file" requireed accept='.jpg,.png,.jpeg' placeholder = "Upload Photos" onChange={this.fileChangeHandler} className="form-control form-control-lg" name="image" />
                                 </div>
                                 {/* <div>
                                     <img src="data:image/jpeg;base64,"

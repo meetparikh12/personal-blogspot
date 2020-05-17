@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
+toast.configure();
 export default class UpdateBlog extends Component {
     constructor(props) {
         super(props);
@@ -11,6 +13,17 @@ export default class UpdateBlog extends Component {
         this.formSubmitHandler = this.formSubmitHandler.bind(this);
     }
     
+    componentDidMount(){
+        axios.get(`http://localhost:5000/api/posts/${this.props.match.params.blogId}`)
+        .then((res)=> {
+            console.log(res.data);
+            this.setState({
+                title: res.data.post.title,
+                description: res.data.post.description
+            })
+        })
+        .catch((err)=> console.log(err.response.data));   
+    }
     formChangeHandler(event){
         this.setState({
             [event.target.name] : event.target.value,
@@ -23,7 +36,15 @@ export default class UpdateBlog extends Component {
             title: this.state.title,
             description: this.state.description,
         }
-        console.log(updatedBlogPost);
+
+        axios.patch(`http://localhost:5000/api/posts/${this.props.match.params.blogId}`, updatedBlogPost)
+        .then((res)=> {
+            console.log(res.data.post);
+            toast.success('Blog updated successfully!', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
+            this.props.history.push('/all-blogs');
+        })
+        .catch((err)=> toast.error(err.response.data.message[0].msg || err.response.data.message, 
+            {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
     }
     render() {
         return (
