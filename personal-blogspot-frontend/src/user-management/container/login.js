@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import { Link} from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import setJwtToken from '../../shared/securityUtils/setJwtToken';
+import jwt_decode from 'jwt-decode';
+import { setUserInfo } from '../../actions/actions';
+import { connect} from 'react-redux';
+toast.configure();
 
-export default class login extends Component {
+class login extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -24,9 +31,16 @@ export default class login extends Component {
             email: this.state.email,
             password: this.state.password
         }
-        
-        console.log(loginUser);
-        
+        axios.post('http://localhost:5000/api/users/login', loginUser)
+        .then((res)=> {
+            const {token} = res.data;
+            localStorage.setItem('jwt-token', token);
+            setJwtToken(token);
+            const decode_token = jwt_decode(token);
+            this.props.setUserInfo(decode_token, this.props.history);
+            toast.success("You're now logged in!", {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+        })
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
     }
     render() {
         return (
@@ -53,3 +67,13 @@ export default class login extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatchEvent => {
+    return {
+        setUserInfo: (userInfo, history) => {
+            dispatchEvent(setUserInfo(userInfo))
+            history.push('/all-blogs');
+        }
+    }
+}
+export default connect(null, mapDispatchToProps)(login);
