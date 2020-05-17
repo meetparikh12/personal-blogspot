@@ -33,7 +33,7 @@ class NavLinks extends React.Component {
             </li>}
 
             {userInfo.userId && <li>
-                <NavLink to={`/blogs/${userInfo.user}`} style={{textDecoration: "none"}}>MY BLOGS</NavLink>
+                <NavLink to={`/blogs/${userInfo.userId}`} style={{textDecoration: "none"}}>MY BLOGS</NavLink>
             </li>}
             
             {userInfo.userId && <li>

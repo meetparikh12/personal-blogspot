@@ -2,7 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import {deletePost} from '../../actions/actions';
 import './single-blog.css';
+import { toast } from 'react-toastify';
 
 class SingleBlog extends React.Component {
     constructor(props){
@@ -40,8 +42,13 @@ class SingleBlog extends React.Component {
     }
     deleteBlogHandler(){
         if(window.confirm('Do you want to delete this blog? Please note that it cannot be undone.')) {
-            console.log('Your blog is deleted.')
-            this.props.history.push("/all-blogs");
+            axios.delete(`http://localhost:5000/api/posts/${this.state.id}`)
+            .then((res)=> {
+                toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
+                this.props.deletePost(this.state.id, this.props.history);
+            }).catch((err)=> {
+                toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
+            })
         }
      
     }
@@ -70,4 +77,13 @@ const mapStateToProps = state => {
         userInfo: state.user.userInfo
     }
 }
-export default connect(mapStateToProps,null)(SingleBlog);
+
+const mapDispatchToProps = dispatchEvent => {
+    return {
+        deletePost : (postId, history) => {
+            dispatchEvent(deletePost(postId));
+            history.push('/all-blogs');
+        }
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(SingleBlog);

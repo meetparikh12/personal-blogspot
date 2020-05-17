@@ -13,3 +13,10 @@ export const getAllPosts = posts => {
         payload: posts
     }
 }
+
+export const deletePost = postId => {
+    return {
+        type: actionTypes.DELETE_POST,
+        payload: postId
+    }
+}
