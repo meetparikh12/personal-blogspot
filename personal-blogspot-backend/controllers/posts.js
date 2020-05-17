@@ -8,15 +8,26 @@ const fs = require('fs');
 exports.GET_ALL_POSTS = async (req, res, next) => {
     let posts;
     try {
-        posts = await Post.find();
+        posts = await Post.find().populate('creator', 'name');
     } catch (err) {
         return next(new ErrorHandling('Posts not fetched', 500));
     }
     if (!posts || posts.length === 0) {
         return next(new ErrorHandling('No posts found', 404))
     }
+    
     res.status(200).json({
-        posts
+        posts: posts.map((post)=> {
+            return {
+            _id: post._id,
+            description: post.description,
+            createdAt: post.createdAt,
+            creator: post.creator.name,
+            image: post.image,
+            title: post.title,
+            updatedAt: post.updateAt,
+            }
+        })
     })
 }
 
@@ -24,7 +35,7 @@ exports.GET_POST_BY_POSTID = async (req, res, next) => {
     let post;
     const postId = req.params.postId;
     try {
-        post = await Post.findById(postId);
+        post = await Post.findById(postId).populate('creator');
     } catch (err) {
         console.log(err);
         return next(new ErrorHandling('Posts not fetched', 500));
@@ -33,7 +44,17 @@ exports.GET_POST_BY_POSTID = async (req, res, next) => {
         return next(new ErrorHandling('No post found', 404))
     }
     res.status(200).json({
-        post
+        post: {
+            _id: post._id,
+            image: post.image,
+            createdAt: (new Date(post.createdAt).toDateString()).substr(4),
+            title: post.title,
+            description: post.description,
+            creator: {
+                id: post.creator._id,
+                name: post.creator.name
+            }
+        }
     });
 }
 
@@ -42,7 +63,7 @@ exports.GET_POSTS_BY_USERID = async (req, res, next) => {
     try {
         posts = await Post.find({
             creator: req.params.userId
-        })
+        }).populate('creator','name')
     } catch (err) {
         console.log(err);
         return next(new ErrorHandling('Posts not fetched', 500));
@@ -51,7 +72,17 @@ exports.GET_POSTS_BY_USERID = async (req, res, next) => {
         return next(new ErrorHandling('Posts not found', 404))
     }
     res.status(200).json({
-        posts
+        posts: posts.map((post) => {
+            return {
+                _id: post._id,
+                description: post.description,
+                createdAt: post.createdAt,
+                creator: post.creator.name,
+                image: post.image,
+                title: post.title,
+                updatedAt: post.updateAt,
+            }
+        })
     });
 }
 
@@ -100,7 +131,7 @@ exports.CREATE_NEW_POST = async (req, res, next) => {
     }
 
     res.status(201).json({
-        post
+        message: 'Blog created successfully!'
     });
 }
 

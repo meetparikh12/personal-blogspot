@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const ErrorHandling = require('./models/error-handling');
 const fs = require('fs');
+const path = require('path');
+
 const port = process.env.PORT || 5000
 
 app.use((req, res, next) => {
@@ -17,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
-
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')))
 app.use('/api/posts', postsRoute);
 app.use('/api/users', usersRoute);
 
