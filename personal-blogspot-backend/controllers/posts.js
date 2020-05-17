@@ -3,6 +3,7 @@ const ErrorHandling = require('../models/error-handling');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const {validationResult}= require('express-validator');
+const fs = require('fs');
 
 exports.GET_ALL_POSTS = async (req, res, next) => {
     let posts;
@@ -63,12 +64,11 @@ exports.CREATE_NEW_POST = async (req, res, next) => {
     }
     const {
         title,
-        description,
-        creator
+        description
     } = req.body;
     let user;
     try {
-        user = await User.findById(creator);
+        user = await User.findById(req.userId);
     } catch (err) {
         return next(new ErrorHandling('User not fetched', 500))
     }
@@ -80,7 +80,7 @@ exports.CREATE_NEW_POST = async (req, res, next) => {
     const post = new Post({
         title,
         description,
-        creator,
+        creator: req.userId,
         image: imageUrl
     })
     try {
@@ -122,6 +122,10 @@ exports.UPDATE_POST = async (req, res, next) => {
         return next(new ErrorHandling('Post not found', 404));
     }
 
+    if (post.creator.toString() !== req.userId) {
+        return next(new ErrorHandling('Not Authorized', 401));
+    }
+
     const {
         title,
         description
@@ -151,7 +155,9 @@ exports.DELETE_POST = async (req, res, next) => {
     if (!post) {
         return next(new ErrorHandling('Post not found', 404));
     }
-
+    if(post.creator._id.toString() !== req.userId){
+        return next(new ErrorHandling('Not Authorized', 401));
+    }
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
@@ -168,6 +174,12 @@ exports.DELETE_POST = async (req, res, next) => {
     } catch (err) {
         return next(new ErrorHandling('Post not deleted', 500))
     }
+    
+    fs.unlink(post.image, (err)=> {
+        err && console.log(err);
+        !err && console.log('File deleted');
+    });
+    
     res.status(200).json({
         message: 'Post deleted successfully.'
     })
