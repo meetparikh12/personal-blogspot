@@ -9,6 +9,33 @@ import SingleBlog from './blogs/container/single-blog';
 import Register from './user-management/container/register';
 import login from './user-management/container/login';
 import UpdateBlog from './blogs/container/update-blog';
+import store from './store/store';
+import jwt_decode from 'jwt-decode';
+import setJwtToken from './shared/securityUtils/setJwtToken';
+import {USER_INFO} from './actions/actionTypes';
+
+const token = localStorage.getItem('jwt-token')
+if(token) {
+  const decoded_token = jwt_decode(token);
+  store.dispatch({
+    type: USER_INFO,
+    payload: decoded_token
+  })
+
+  const currentTime = Date.now()/1000;
+  console.log(currentTime);
+  console.log(decoded_token.exp);
+  
+  if(decoded_token.exp < currentTime) {
+    localStorage.removeItem('jwt-token');
+    setJwtToken(false);
+    store.dispatch({
+      type: USER_INFO,
+      payload: {}
+    });
+    window.location.href = '/';
+  }
+}
 function App() {
   return (
     <Router>
