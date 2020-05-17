@@ -9,6 +9,13 @@ const ErrorHandling = require('./models/error-handling');
 const fs = require('fs');
 const port = process.env.PORT || 5000
 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", '*');
+    res.setHeader("Access-Control-Allow-Methods", 'OPTIONS, GET, POST, PUT, DELETE, PATCH');
+    res.setHeader("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Accept, Content-Type, Authorization');
+    next();
+});
+
 app.use(bodyParser.json());
 
 app.use('/api/posts', postsRoute);
