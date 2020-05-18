@@ -38,7 +38,7 @@ class SingleBlog extends React.Component {
                
             })
         })
-        .catch((err)=> console.log(err.response.data));
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}));
     }
     deleteBlogHandler(){
         if(window.confirm('Do you want to delete this blog? Please note that it cannot be undone.')) {

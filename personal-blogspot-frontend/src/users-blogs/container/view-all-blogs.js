@@ -3,15 +3,15 @@ import BlogList from './BlogList';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {getAllPosts} from '../../actions/actions';
+import { toast } from 'react-toastify';
 
 class AllBlogs extends React.Component {
     componentDidMount(){
         axios.get('http://localhost:5000/api/posts')
         .then((res)=> {
-            console.log(res.data);
             this.props.setPosts(res.data.posts);
         })
-        .catch((err)=> console.log(err.response.data));
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}));
     }
     render() {
         const  {posts} = this.props;

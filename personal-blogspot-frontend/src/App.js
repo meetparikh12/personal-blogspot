@@ -24,9 +24,6 @@ if(token) {
   })
 
   const currentTime = Date.now()/1000;
-  console.log(currentTime);
-  console.log(decoded_token.exp);
-  
   if(decoded_token.exp < currentTime) {
     localStorage.removeItem('jwt-token');
     setJwtToken(false);

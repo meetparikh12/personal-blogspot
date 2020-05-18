@@ -16,13 +16,12 @@ export default class UpdateBlog extends Component {
     componentDidMount(){
         axios.get(`http://localhost:5000/api/posts/${this.props.match.params.blogId}`)
         .then((res)=> {
-            console.log(res.data);
             this.setState({
                 title: res.data.post.title,
                 description: res.data.post.description
             })
         })
-        .catch((err)=> console.log(err.response.data));   
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}));   
     }
     formChangeHandler(event){
         this.setState({
@@ -39,7 +38,6 @@ export default class UpdateBlog extends Component {
 
         axios.patch(`http://localhost:5000/api/posts/${this.props.match.params.blogId}`, updatedBlogPost)
         .then((res)=> {
-            console.log(res.data.post);
             toast.success('Blog updated successfully!', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
             this.props.history.push('/');
         })

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import BlogList from '../../users-blogs/container/BlogList';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 class AuthorBlogs extends Component {
     constructor(props){
@@ -18,7 +19,7 @@ class AuthorBlogs extends Component {
                 blogs: res.data.posts
             })
         })
-        .catch((err)=> console.log(err.response.data));
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}));
     }
 
     render() {
