@@ -72,7 +72,7 @@ const mapDispatchToProps = dispatchEvent => {
     return {
         setUserInfo: (userInfo, history) => {
             dispatchEvent(setUserInfo(userInfo))
-            history.push('/all-blogs');
+            history.push('/');
         }
     }
 }

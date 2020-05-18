@@ -31,7 +31,7 @@ const MainNavigation = (props)=> {
                     <span/>
                     <span/>
                 </button>
-                <h3 className="main-navigation__title" ><Link to="/all-blogs" style={{color: "white", textDecoration: "none"}}>PERSONAL<span> BLOGSPOT</span></Link></h3>
+                <h3 className="main-navigation__title" ><Link to="/" style={{color: "white", textDecoration: "none"}}>PERSONAL<span> BLOGSPOT</span></Link></h3>
                 <nav className="main-navigation__header-nav">
                     <NavLinks />
                 </nav>

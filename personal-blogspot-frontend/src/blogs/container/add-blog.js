@@ -38,7 +38,7 @@ export default class AddBlog extends Component {
         axios.post('http://localhost:5000/api/posts', blogPost)
         .then((res)=> {
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
-            this.props.history.push('/all-blogs');
+            this.props.history.push('/');
         })
         .catch((err)=> toast.error(err.response.data.message[0].msg || err.response.data.message, 
             {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));

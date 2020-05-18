@@ -34,7 +34,7 @@ export default class Register extends React.Component {
         axios.post('http://localhost:5000/api/users/register', newUser)
         .then((res)=> {
             toast.success(res.data.message, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 1000});
-            this.props.history.push('/');
+            this.props.history.push('/login');
         })
         .catch((err)=> toast.error(err.response.data.message[0].msg || err.response.data.message, 
             {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));

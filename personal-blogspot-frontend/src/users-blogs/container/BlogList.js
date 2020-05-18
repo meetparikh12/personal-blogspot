@@ -8,7 +8,7 @@ export default function BlogList(props) {
         return (
             <div className="place-list center">  
                 <Card>
-                    <h2>No blogs found. Maybe create one?</h2>
+                    <h2>No blogs found.</h2>
                 </Card>  
             </div> 
     )} else {

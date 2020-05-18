@@ -13,6 +13,7 @@ import store from './store/store';
 import jwt_decode from 'jwt-decode';
 import setJwtToken from './shared/securityUtils/setJwtToken';
 import {USER_INFO} from './actions/actionTypes';
+import ProtectedRoute from './shared/securityUtils/ProtectedRoute';
 
 const token = localStorage.getItem('jwt-token')
 if(token) {
@@ -42,13 +43,13 @@ function App() {
       <MainNavigation/>
       <main>
         <Switch>
-          <Route exact path="/" component={login}></Route>
+          <Route exact path="/login" component={login}></Route>
           <Route exact path="/register" component={Register}></Route>
-          <Route exact path="/all-blogs" component={AllBlogs}></Route>
-          <Route exact path="/blogs/:userId" component={AuthorBlogs}></Route>
-          <Route exact path="/blog/new" component={AddBlog}></Route>
-          <Route exact path="/blog/:blogId" component={UpdateBlog}></Route>
-          <Route exact path="/blog/user/:blogId" component={SingleBlog}></Route>
+          <Route exact path="/" component={AllBlogs}></Route>
+          <ProtectedRoute exact path="/blogs/:userId" component={AuthorBlogs}/>
+          <ProtectedRoute exact path="/blog/new" component={AddBlog}/>
+          <ProtectedRoute exact path="/blog/update/:blogId" component={UpdateBlog}/>
+          <Route exact path="/blog/user/:blogId" component={SingleBlog}/>
           <Redirect to="/"/>
         </Switch>
       </main>

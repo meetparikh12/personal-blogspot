@@ -20,12 +20,12 @@ class NavLinks extends React.Component {
         return (
         <ul className="nav-links">
     
-            {userInfo.userId && <li>
-                <NavLink to="/all-blogs" style={{textDecoration: "none"}}>ALL BLOGS</NavLink>
-            </li>}
+            <li>
+                <NavLink to="/" exact style={{textDecoration: "none"}}>ALL BLOGS</NavLink>
+            </li>
 
             {!userInfo.userId && <li>
-                <NavLink to="/" style={{textDecoration: "none"}} exact>LOGIN</NavLink>
+                <NavLink to="/login" style={{textDecoration: "none"}} exact>LOGIN</NavLink>
             </li>}
            
             {!userInfo.userId && <li>
@@ -41,7 +41,7 @@ class NavLinks extends React.Component {
             </li>}            
            
             {userInfo.userId && <li>
-                <NavLink to="/" style={{textDecoration: "none"}} exact onClick={this.logoutUser.bind(this)}>LOGOUT</NavLink>
+                <NavLink to="/login" style={{textDecoration: "none"}} exact onClick={this.logoutUser.bind(this)}>LOGOUT</NavLink>
             </li>}            
 
         </ul>

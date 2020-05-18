@@ -63,7 +63,7 @@ class SingleBlog extends React.Component {
                     <div className="card-body blog-post__info">
                         <h2 className="card-title"><b>{this.state.title}</b></h2>
                         <p className="card-text text-justify">{this.state.description}</p>
-                        {(this.props.userInfo.userId === this.state.creator.id) && <Link to={`/blog/${this.state.blogId}`}><button className="btn btn-outline-info mr-3">EDIT BLOG</button></Link>}
+                        {(this.props.userInfo.userId === this.state.creator.id) && <Link to={`/blog/update/${this.state.blogId}`}><button className="btn btn-outline-info mr-3">EDIT BLOG</button></Link>}
                         {(this.props.userInfo.userId === this.state.creator.id) && <button className="btn btn-outline-danger" onClick={this.deleteBlogHandler.bind(this)}>DELETE </button>}
                         <hr/>
                         <p className="card-text"><small className="text-muted text-left"><i>Posted by <b>{this.state.creator.name}</b> on {this.state.createdAt}</i></small></p>
@@ -82,7 +82,7 @@ const mapDispatchToProps = dispatchEvent => {
     return {
         deletePost : (postId, history) => {
             dispatchEvent(deletePost(postId));
-            history.push('/all-blogs');
+            history.push('/');
         }
     }
 }
