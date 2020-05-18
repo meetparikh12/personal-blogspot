@@ -58,6 +58,7 @@ class SingleBlog extends React.Component {
     render(){
         
         return (
+            
             <div className="container blog-post">
                 <div className="card mb-5">
                     <div className="blog-post__image">
