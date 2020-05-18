@@ -7,6 +7,8 @@ import setJwtToken from '../../shared/securityUtils/setJwtToken';
 import jwt_decode from 'jwt-decode';
 import { setUserInfo } from '../../actions/actions';
 import { connect} from 'react-redux';
+import { trackPromise } from 'react-promise-tracker';
+
 toast.configure();
 
 class login extends Component {
@@ -31,6 +33,7 @@ class login extends Component {
             email: this.state.email,
             password: this.state.password
         }
+        trackPromise(
         axios.post('http://localhost:5000/api/users/login', loginUser)
         .then((res)=> {
             const {token} = res.data;
@@ -40,7 +43,7 @@ class login extends Component {
             this.props.setUserInfo(decode_token, this.props.history);
             toast.success("Hi, Welcome Back!", {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
         })
-        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})))
     }
     render() {
         return (

@@ -3,6 +3,7 @@ import BlogList from '../../users-blogs/container/BlogList';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import { trackPromise } from 'react-promise-tracker';
 
 class AuthorBlogs extends Component {
     constructor(props){
@@ -13,13 +14,15 @@ class AuthorBlogs extends Component {
         }
     }
     componentDidMount(){
+        trackPromise(
         Axios.get(`http://localhost:5000/api/posts/user/${this.props.match.params.userId}`)
         .then((res)=>{
             this.setState({
                 blogs: res.data.posts
             })
         })
-        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}));
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}))
+        )
     }
 
     render() {

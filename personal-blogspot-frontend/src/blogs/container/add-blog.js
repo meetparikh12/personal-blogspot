@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import { trackPromise } from 'react-promise-tracker';
 
 export default class AddBlog extends Component {
     constructor(props){
@@ -34,15 +35,16 @@ export default class AddBlog extends Component {
         blogPost.set('title', this.state.title);
         blogPost.set('description', this.state.description);
         blogPost.append('image', this.state.image);
-
+        trackPromise(
         axios.post('http://localhost:5000/api/posts', blogPost)
         .then((res)=> {
             toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
             this.props.history.push('/');
         })
         .catch((err)=> toast.error(err.response.data.message[0].msg || err.response.data.message, 
-            {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
-    }    
+            {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}))
+        )
+    }
     
     render() {
         return (

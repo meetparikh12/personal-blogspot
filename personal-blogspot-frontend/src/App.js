@@ -31,7 +31,7 @@ if(token) {
       type: USER_INFO,
       payload: {}
     });
-    window.location.href = '/';
+    window.location.href = '/login';
   }
 }
 function App() {

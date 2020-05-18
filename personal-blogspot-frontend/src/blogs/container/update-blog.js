@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { trackPromise } from 'react-promise-tracker';
+
 toast.configure();
 export default class UpdateBlog extends Component {
     constructor(props) {
@@ -14,6 +16,8 @@ export default class UpdateBlog extends Component {
     }
     
     componentDidMount(){
+        
+        trackPromise(
         axios.get(`http://localhost:5000/api/posts/${this.props.match.params.blogId}`)
         .then((res)=> {
             this.setState({
@@ -21,7 +25,7 @@ export default class UpdateBlog extends Component {
                 description: res.data.post.description
             })
         })
-        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}));   
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}))) 
     }
     formChangeHandler(event){
         this.setState({
@@ -36,13 +40,14 @@ export default class UpdateBlog extends Component {
             description: this.state.description,
         }
 
+        trackPromise(
         axios.patch(`http://localhost:5000/api/posts/${this.props.match.params.blogId}`, updatedBlogPost)
         .then((res)=> {
             toast.success('Blog updated successfully!', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
             this.props.history.push('/');
         })
         .catch((err)=> toast.error(err.response.data.message[0].msg || err.response.data.message, 
-            {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000}));
+            {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})))
     }
     render() {
         return (

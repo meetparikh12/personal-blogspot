@@ -5,6 +5,7 @@ import axios from 'axios';
 import {deletePost} from '../../actions/actions';
 import './single-blog.css';
 import { toast } from 'react-toastify';
+import { trackPromise } from 'react-promise-tracker';
 
 class SingleBlog extends React.Component {
     constructor(props){
@@ -23,6 +24,7 @@ class SingleBlog extends React.Component {
         }
     }
     componentDidMount(){
+        trackPromise(
         axios.get(`http://localhost:5000/api/posts/${this.state.blogId}`)
         .then((res)=> {
             this.setState({
@@ -38,17 +40,18 @@ class SingleBlog extends React.Component {
                
             })
         })
-        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT}));
+        .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT})))
     }
     deleteBlogHandler(){
         if(window.confirm('Do you want to delete this blog? Please note that it cannot be undone.')) {
+            trackPromise(
             axios.delete(`http://localhost:5000/api/posts/${this.state.id}`)
             .then((res)=> {
                 toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
                 this.props.deletePost(this.state.id, this.props.history);
             }).catch((err)=> {
                 toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000})
-            })
+            }))
         }
      
     }
