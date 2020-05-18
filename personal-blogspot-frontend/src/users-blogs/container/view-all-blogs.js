@@ -5,7 +5,9 @@ import axios from 'axios';
 import {getAllPosts} from '../../actions/actions';
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker';
+import PropTypes from 'prop-types';
 
+toast.configure();
 class AllBlogs extends React.Component {
     componentDidMount(){
         trackPromise(
@@ -19,6 +21,10 @@ class AllBlogs extends React.Component {
         const  {posts} = this.props;
         return <BlogList blogs={posts}/> 
     }
+}
+AllBlogs.propTypes = {
+    posts: PropTypes.array.isRequired,
+    setPosts: PropTypes.func.isRequired
 }
 const mapStateToProps = state => {
     return {

@@ -6,6 +6,7 @@ import {deletePost} from '../../actions/actions';
 import './single-blog.css';
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker';
+import PropTypes from 'prop-types';
 
 class SingleBlog extends React.Component {
     constructor(props){
@@ -76,6 +77,12 @@ class SingleBlog extends React.Component {
            </div>       
     )}
 }
+
+SingleBlog.propTypes = {
+    userInfo: PropTypes.object.isRequired,
+    deletePost: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state => {
     return {
         userInfo: state.user.userInfo

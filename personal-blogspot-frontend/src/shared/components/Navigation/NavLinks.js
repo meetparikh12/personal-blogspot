@@ -5,6 +5,7 @@ import './NavLinks.css';
 import { setUserInfo } from '../../../actions/actions';
 import setJwtToken from '../../securityUtils/setJwtToken';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 class NavLinks extends React.Component {
 
@@ -49,6 +50,10 @@ class NavLinks extends React.Component {
     }
 }
 
+NavLinks.propTypes = {
+    userInfo: PropTypes.object.isRequired,
+    logoutUser: PropTypes.func.isRequired
+}
 const mapStateToProps = state => {
     return {
         userInfo : state.user.userInfo

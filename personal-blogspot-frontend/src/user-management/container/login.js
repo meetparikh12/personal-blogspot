@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 import { setUserInfo } from '../../actions/actions';
 import { connect} from 'react-redux';
 import { trackPromise } from 'react-promise-tracker';
+import PropTypes from 'prop-types';
 
 toast.configure();
 
@@ -70,7 +71,9 @@ class login extends Component {
         )
     }
 }
-
+login.propTypes = {
+    setUserInfo: PropTypes.func.isRequired
+}
 const mapDispatchToProps = dispatchEvent => {
     return {
         setUserInfo: (userInfo, history) => {

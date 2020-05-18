@@ -16,7 +16,7 @@ export default class BlogItem extends Component {
                     </div>
                     <div className="col-md-8 px-3">
                         <div className="card-block px-3">
-                        <h2 className="card-title"><b>{this.props.title}</b></h2>
+                        <h3 className="card-title"><b>{this.props.title}</b></h3>
                         {this.props.description.length> MAX_LENGTH ? 
                         <p className="card-text">{this.props.description.substring(0,MAX_LENGTH)+'[...]'}</p> :
                         <p className="card-text">{this.props.description}</p>                             

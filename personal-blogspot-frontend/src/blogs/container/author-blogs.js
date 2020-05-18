@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker';
+import PropTypes from 'prop-types';
 
 class AuthorBlogs extends Component {
     constructor(props){
@@ -28,6 +29,10 @@ class AuthorBlogs extends Component {
     render() {
         return (<BlogList blogs={this.state.blogs}/>)
     }
+}
+
+AuthorBlogs.propTypes = {
+    userInfo: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => {
