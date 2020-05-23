@@ -1,2 +1,4 @@
 # personal-blogspot
-A Responsive Blog Application using MERN stack where unauthenticated users are only allowed to view blogs of all users and authenticated users have permission to create their own blogs, can view their own blogs as well as other users blogs, they have options to delete & edit blogs. But they are not authorized to perform operations on other users blogs. 
+A Responsive web-application created using MERN stack where users can authenticate themselves by registering and then after have access to perform CRUD operations on blogs whereas unauthorized ones can simply check and go through all the blogs.
+
+Link to the project: https://personal-blogspot.netlify.app
