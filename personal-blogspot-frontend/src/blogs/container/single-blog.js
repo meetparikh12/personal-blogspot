@@ -21,8 +21,13 @@ class SingleBlog extends React.Component {
             title: '',
             description: '',
             image: '',
-            blogId : this.props.match.params.blogId
+            blogId : this.props.match.params.blogId,
+            likes: 0
         }
+
+        this.likePostHandler = this.likePostHandler.bind(this);
+        this.unlikePostHandler = this.unlikePostHandler.bind(this);
+
     }
     componentDidMount(){
         trackPromise(
@@ -37,8 +42,8 @@ class SingleBlog extends React.Component {
                 createdAt: res.data.post.createdAt,
                 title: res.data.post.title,
                 description: res.data.post.description,
-                image: res.data.post.image
-               
+                image: res.data.post.image,
+                likes: res.data.post.likes
             })
         })
         .catch((err)=> toast.error(err.response.data.message, {position: toast.POSITION.BOTTOM_RIGHT})))
@@ -56,6 +61,58 @@ class SingleBlog extends React.Component {
         }
      
     }
+
+    likePostHandler(){
+        if(!this.props.userInfo.userId){
+            toast.error('Please Login to like the post', {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+        }else {
+            axios.patch(`http://localhost:5000/api/posts/${this.state.id}/${this.props.userInfo.userId}/like`)
+            .then((res)=> {
+                toast.success(res.data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 1000
+                })
+                this.setState({
+                    likes: res.data.likes
+                })
+            })
+            .catch((err)=> {
+                toast.error(err.response.data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 1000
+                })
+            })
+        }
+    }
+
+    unlikePostHandler(){
+        if(!this.props.userInfo.userId){
+            toast.error('Please Login to like the post', {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+            })
+        }else {
+            axios.patch(`http://localhost:5000/api/posts/${this.state.id}/${this.props.userInfo.userId}/unlike`)
+            .then((res)=> {
+                toast.success(res.data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 1000
+                })
+                this.setState({
+                    likes: res.data.likes
+                })
+            })
+            .catch((err)=> {
+                toast.error(err.response.data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 1000
+                })
+            })
+        }
+    }
     render(){
         
         return (
@@ -71,7 +128,11 @@ class SingleBlog extends React.Component {
                         {(this.props.userInfo.userId === this.state.creator.id) && <Link to={`/blog/update/${this.state.blogId}`}><button className="btn btn-outline-info mr-3">EDIT BLOG</button></Link>}
                         {(this.props.userInfo.userId === this.state.creator.id) && <button className="btn btn-outline-danger" onClick={this.deleteBlogHandler.bind(this)}>DELETE </button>}
                         <hr/>
+                        {this.state.likes}
+                        <i className="fa fa-thumbs-up ml-2 mr-3 text-secondary" style={{cursor: "pointer"}} onClick={this.likePostHandler} aria-hidden="true"></i>   
+                        <i className="fa fa-thumbs-down text-secondary" style={{cursor: "pointer"}} onClick={this.unlikePostHandler} aria-hidden="true"></i> 
                         <p className="card-text"><small className="text-muted text-left"><i>Posted by <b>{this.state.creator.name}</b> on {this.state.createdAt}</i></small></p>
+                        
                     </div>
                 </div>
            </div>       

@@ -65,7 +65,7 @@ export default class AddBlog extends Component {
                                 </div>
                                 <h6>Upload Photo:</h6>
                                 <div className="form-group">
-                                    <input type="file" requireed accept='.jpg,.png,.jpeg' placeholder = "Upload Photos" onChange={this.fileChangeHandler} className="form-control form-control-lg" name="image" />
+                                    <input type="file" required accept='.jpg,.png,.jpeg' placeholder = "Upload Photos" onChange={this.fileChangeHandler} className="form-control form-control-lg" name="image" />
                                 </div>
                                 {/* <div>
                                     <img src="data:image/jpeg;base64,"

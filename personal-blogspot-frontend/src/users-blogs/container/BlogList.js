@@ -6,7 +6,7 @@ export default function BlogList(props) {
     
     if(props.blogs.length === 0) {
         return (
-            <div className="place-list center">  
+            <div className="blog-list center">  
                 <Card>
                     <h2>No blogs found.</h2>
                 </Card>  

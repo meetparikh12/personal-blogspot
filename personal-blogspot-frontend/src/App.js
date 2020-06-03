@@ -17,6 +17,7 @@ import ProtectedRoute from './shared/securityUtils/ProtectedRoute';
 
 const token = localStorage.getItem('jwt-token')
 if(token) {
+  setJwtToken(token);
   const decoded_token = jwt_decode(token);
   store.dispatch({
     type: USER_INFO,
