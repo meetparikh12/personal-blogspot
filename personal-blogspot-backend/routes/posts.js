@@ -16,6 +16,10 @@ route.post('/', auth, fileUpload.single('image'), [
     body('description').trim().isLength({min: 10}).withMessage('Description must be atleast 10 characters long.')
 ], postsController.CREATE_NEW_POST);
 
+route.patch('/:postId/:userId/like', auth, postsController.LIKE_POST);
+
+route.patch('/:postId/:userId/unlike', auth, postsController.UNLIKE_POST);
+
 route.patch('/:postId', auth, [
     body('title').trim().isLength({min:5}).withMessage('Title must be atleast 5 characters long.'),
     body('description').trim().isLength({min: 10}).withMessage('Description must be atleast 10 characters long.')

@@ -25,7 +25,7 @@ exports.GET_ALL_POSTS = async (req, res, next) => {
             creator: post.creator.name,
             image: post.image,
             title: post.title,
-            updatedAt: post.updateAt,
+            updatedAt: post.updateAt
             }
         })
     })
@@ -53,7 +53,8 @@ exports.GET_POST_BY_POSTID = async (req, res, next) => {
             creator: {
                 id: post.creator._id,
                 name: post.creator.name
-            }
+            },
+            likes: post.likes.length
         }
     });
 }
@@ -214,4 +215,85 @@ exports.DELETE_POST = async (req, res, next) => {
     res.status(200).json({
         message: 'Post deleted successfully.'
     })
+}
+
+exports.LIKE_POST = async (req,res,next)=> {
+    const {userId, postId} = req.params;
+    let post;
+    try {
+        post = await Post.findById(postId);
+    } catch(err){
+        return next(new ErrorHandling('Post not fetched', 500));
+    }
+    if(!post){
+        return next(new ErrorHandling('Post not found', 404));
+    }
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (err) {
+        return next(new ErrorHandling('User not fetched', 500));
+    }
+    if (!user) {
+        return next(new ErrorHandling('User not found', 404));
+    }
+    if(user._id.toString() !== req.userId){
+        return next(new ErrorHandling('Sorry, Not Authorized.', 401))
+    }
+    let isPostLiked;
+    try {
+        isPostLiked = await post.likes.find((user)=> user.toString() === req.userId);
+    } catch(err){
+        return next(new ErrorHandling('Try again', 500))
+    }
+    if(isPostLiked){
+        return next(new ErrorHandling('Post already liked', 409));
+    } else {
+        post.likes.unshift(user);
+    }
+    try {
+        await post.save();
+    }catch(err){
+        return next(new ErrorHandling('Post not liked', 500));
+    } 
+    res.status(200).json({message: "Post Liked successfully", likes: post.likes.length});
+}
+
+exports.UNLIKE_POST = async (req,res,next)=> {
+    const {userId, postId} = req.params;
+    let post, user;
+    try {
+        post = await Post.findById(postId);
+    }
+    catch(err){
+        return next(new ErrorHandling('Post not fetched', 500))
+    }
+    if(!post){
+        return next(new ErrorHandling('Post not found', 404));
+    }
+    try {
+        user = await User.findById(userId);
+    }catch(err){
+        return next(new ErrorHandling('User not fetched', 500))
+    }
+    if(!user){
+        return next(new ErrorHandling('User not found', 404))
+    }
+    if(user._id.toString() !== req.userId){
+        return next(new ErrorHandling('Sorry, Not Authorized', 401))
+    }
+    let isPostLiked;
+    try {
+        isPostLiked = await post.likes.find((user)=> user.toString() === req.userId);
+        if (isPostLiked) {
+            post.likes.pull(user);
+            await post.save();
+        } else if(!isPostLiked){
+            return next(new ErrorHandling('You have not yet liked the post', 409))
+        }
+    }catch(err){
+        return next(new ErrorHandling('Post not unliked', 500));
+    }
+
+    res.status(200).json({message: 'Post unliked successfully', likes: post.likes.length})
 }
